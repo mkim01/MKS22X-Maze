@@ -36,15 +36,47 @@ public class Maze{
           height++;
         }
         maze = new char[height][width];
+        boolean checkEnd = false;
+        boolean checkStart = false;
+
         while(inf.hasNextLine()){
           int theight = 0;
           String line = inf.nextLine();
           for(int i = 0; i < width; i++){
-            maze[theight][width] = line.charAt(i);
+            char c = line.charAt(i);
+            if( c == 'E') {
+              if (!checkEnd){
+                throw new IllegalStateException("more than 1 start");
+              }
+              else{
+                checkEnd = true;
+              }
             }
-            theight++;
+            if( c == 'S') {
+              if (!checkStart){
+                throw new IllegalStateException("more than 1 end");
+              }
+              else{
+                checkStart = true;
+              }
+            }
+            maze[theight][width] = c;
           }
+            theight++;
+        }
         animate = false;
+    }
+
+    public String toString(){
+      String output = "";
+      for(int i = 0; i < height; i++){
+        for(int j = 0; j < width; j++){
+          output += maze[i][j];
+          //System.out.println(maze[i][j]);
+        }
+        output += "\n";
+      }
+      return output;
     }
 
     private void wait(int millis){
@@ -55,23 +87,14 @@ public class Maze{
          }
      }
 
-
     public void setAnimate(boolean b){
-
         animate = b;
-
     }
-
 
     public void clearTerminal(){
-
         //erase terminal, go to top left of screen.
-
         System.out.println("\033[2J\033[1;1H");
-
     }
-
-
 
     /*Wrapper Solve Function returns the helper function
 
@@ -127,5 +150,8 @@ public class Maze{
         return -1; //so it compiles
     }
 
-
+    public static void main(String[] args) throws FileNotFoundException{
+        Maze m1 = new Maze("data1.dat");
+        System.out.println(m1);
+      }
 }
