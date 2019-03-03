@@ -8,6 +8,9 @@ public class Maze{
     private boolean animate;//false by default
     private int width;
     private int height;
+    private int startxposition;
+    private int startyposition;
+    private int[][] move = {{1,0}, {0,1}, {-1,0}, {0,-1}};
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -44,6 +47,7 @@ public class Maze{
           String line = inf.nextLine();
           for(int i = 0; i < width; i++){
             char c = line.charAt(i);
+            System.out.println(c);
             if( c == 'E') {
               if (!checkEnd){
                 throw new IllegalStateException("more than 1 start");
@@ -58,13 +62,15 @@ public class Maze{
               }
               else{
                 checkStart = true;
+                startxposition = i;
+                startyposition = theight;
               }
             }
             maze[theight][width] = c;
           }
             theight++;
         }
-        animate = false;
+    //    animate = false;
     }
 
     public String toString(){
@@ -103,18 +109,13 @@ public class Maze{
 
     */
     public int solve(){
-
-            //find the location of the S.
-
-
-            //erase the S
-
-
-            //and start solving at the location of the s.
-
-            //return solve(???,???);
+        // maze[startxposition][startyposition] = ' ';
+        // for (int i = 0; i < 4; i++){
+        //   return solve(startxposition + move[i][0], startyposition + move[i][1]);
+        // }
         return 0;
     }
+
 
     /*
       Recursive Solve function:
@@ -135,13 +136,10 @@ public class Maze{
     */
     private int solve(int row, int col){ //you can add more parameters since this is private
 
-
         //automatic animation! You are welcome.
         if(animate){
-
             clearTerminal();
             System.out.println(this);
-
             wait(20);
         }
 
