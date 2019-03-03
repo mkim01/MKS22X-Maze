@@ -6,6 +6,8 @@ public class Maze{
 
     private char[][]maze;
     private boolean animate;//false by default
+    private int width;
+    private int height;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -26,12 +28,22 @@ public class Maze{
 
     public Maze(String filename) throws FileNotFoundException{
         //COMPLETE CONSTRUCTOR
-        File f = new File(fileName);
+        File f = new File(filename);
         Scanner inf = new Scanner(f);
         while(inf.hasNextLine()){
           String line = inf.nextLine();
+          width = line.length();
+          height++;
         }
-
+        maze = new char[height][width];
+        while(inf.hasNextLine()){
+          int theight = 0;
+          String line = inf.nextLine();
+          for(int i = 0; i < width; i++){
+            maze[theight][width] = line.charAt(i);
+            }
+            theight++;
+          }
         animate = false;
     }
 
@@ -78,7 +90,7 @@ public class Maze{
             //and start solving at the location of the s.
 
             //return solve(???,???);
-
+        return 0;
     }
 
     /*
