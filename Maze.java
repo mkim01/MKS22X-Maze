@@ -42,23 +42,23 @@ public class Maze{
         boolean checkEnd = false;
         boolean checkStart = false;
 
+        inf = new Scanner(f);
+        int theight = 0;
         while(inf.hasNextLine()){
-          int theight = 0;
           String line = inf.nextLine();
           for(int i = 0; i < width; i++){
             char c = line.charAt(i);
-            System.out.println(c);
             if( c == 'E') {
-              if (!checkEnd){
-                throw new IllegalStateException("more than 1 start");
+              if (checkEnd){
+                throw new IllegalStateException("more than 1 end");
               }
               else{
                 checkEnd = true;
               }
             }
             if( c == 'S') {
-              if (!checkStart){
-                throw new IllegalStateException("more than 1 end");
+              if (checkStart){
+                throw new IllegalStateException("more than 1 start");
               }
               else{
                 checkStart = true;
@@ -66,11 +66,11 @@ public class Maze{
                 startyposition = theight;
               }
             }
-            maze[theight][width] = c;
+            maze[theight][i] = c;
           }
             theight++;
         }
-    //    animate = false;
+        animate = false;
     }
 
     public String toString(){
@@ -109,11 +109,9 @@ public class Maze{
 
     */
     public int solve(){
-        // maze[startxposition][startyposition] = ' ';
-        // for (int i = 0; i < 4; i++){
-        //   return solve(startxposition + move[i][0], startyposition + move[i][1]);
-        // }
-        return 0;
+
+        maze[startxposition][startyposition] = '@';
+        return solve(startxposition, startyposition, 1);
     }
 
 
@@ -134,8 +132,10 @@ public class Maze{
 
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
-
+    private int solve(int row, int col, int movecount){ //you can add more parameters since this is private
+        if (maze[row][col] == 'E'){
+          return movecount;
+        }
         //automatic animation! You are welcome.
         if(animate){
             clearTerminal();
