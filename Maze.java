@@ -10,8 +10,8 @@ public class Maze{
     private int height;
     private int startxposition;
     private int startyposition;
-    private int[][] move = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-
+    private int[][] move = {{-1,0}, {0,1},  {1,0},   {0,-1}};
+    private int step = -1;
     /*Constructor loads a maze text file, and sets animate to false by default.
 
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
@@ -109,8 +109,7 @@ public class Maze{
 
     */
     public int solve(){
-        maze[startxposition][startyposition] = '@';
-        return solve(startxposition, startyposition, 1);
+        return solve(startxposition, startyposition, 0);
     }
 
 
@@ -141,31 +140,45 @@ public class Maze{
 
       /////////////======= TT
       if (maze[row][col] == 'E'){
-        return movecount;
+         return movecount;
       // if (maze[row][col] == '.'){
       //   return -1;
       // }
       }
-      else{
-        maze[row][col] = '@';
+      // if (maze[row][col] != ' '){
+      //   return -1;
+      // }
+
         for (int i = 0; i < 4; i++){
-          if(checkpath(row + move[i][0], col + move[i][1], movecount + 1)){
-              solve(row + move[i][0], col + move[i][1], movecount + 1);
+          maze[row][col] = '@';
+          // if(checkpath(row + move[i][0], col + move[i][1])){
+           if (maze[row + move[i][0]][col + move[i][1]] == ' ' ||maze[row + move[i][0]][col + move[i][1]] == 'E'){
+            int h = solve(row + move[i][0], col + move[i][1], movecount + 1);
+            if (h != -1){
+              return h;
+            }
+            else{
+              maze[row][col] = '.';
             }
           }
-          if (movecount == 1){
-            maze[row][col] = '.';
-          }
         }
-    return -1;
-  }
-
-    private boolean checkpath(int row, int col, int movecount){
-      if (row >= height || col >= width || row < 0
-      || col < 0 || maze[row][col] != ' ' || movecount == 1){
-        return false;
+        return -1;
       }
-      // if (maze[row][col] != ' '){
+
+
+        //  return step;
+        // }
+          // if(movecount == 1){
+          //   maze[row][col] = '.';
+          //   movecount --;
+
+    // private boolean checkpath(int row, int col){
+    //   if (row >= height || col >= width || row < 0
+    //   || col < 0 || maze[row][col] != ' ' ){
+    //     return false;
+    //   }
+    // }
+    //   // if (maze[row][col] != ' '){
       //   //movecount++;
       //   return false;
       // }
@@ -173,15 +186,16 @@ public class Maze{
       //   return true;
       // }
       //movecount --;
-      // return false;
-      return true;
-    }
 
-    public static void main(String[] args) throws FileNotFoundException{
-        Maze m1 = new Maze("data2.dat");
-        System.out.println(m1);
-        System.out.println(m1.solve());
-        System.out.println(m1);
-
-      }
+      public static void main(String[] args) {
+    		try{
+    			Maze maze = new Maze("data2.dat");
+    			maze.setAnimate(true);
+    			System.out.println(maze.solve());
+          // System.out.println(maze);
+    		}
+    		catch(FileNotFoundException e){
+    			e.printStackTrace();
+    		}
+    	}
 }
