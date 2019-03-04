@@ -109,7 +109,7 @@ public class Maze{
 
     */
     public int solve(){
-        return solve(startxposition, startyposition, 1);
+        return solve(startxposition, startyposition, 0);
     }
 
 
@@ -186,7 +186,7 @@ public class Maze{
 
       public static void main(String[] args) {
     		try{
-    			Maze maze = new Maze("Maze1.txt");
+    			Maze maze = new Maze("data1.dat");
     			maze.setAnimate(true);
     			System.out.println(maze.solve());
           // System.out.println(maze);
