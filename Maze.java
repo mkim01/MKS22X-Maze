@@ -109,7 +109,7 @@ public class Maze{
 
     */
     public int solve(){
-        return solve(startxposition, startyposition, 0);
+        return solve(startxposition, startyposition, 1);
     }
 
 
@@ -157,15 +157,12 @@ public class Maze{
             if (h != -1){
               return h;
             }
-            else{
+          }
+          ///  else{
               maze[row][col] = '.';
             }
-          }
-        }
         return -1;
       }
-
-
         //  return step;
         // }
           // if(movecount == 1){
@@ -189,7 +186,7 @@ public class Maze{
 
       public static void main(String[] args) {
     		try{
-    			Maze maze = new Maze("data2.dat");
+    			Maze maze = new Maze("Maze1.txt");
     			maze.setAnimate(true);
     			System.out.println(maze.solve());
           // System.out.println(maze);
