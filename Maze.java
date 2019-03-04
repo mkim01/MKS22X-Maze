@@ -62,8 +62,8 @@ public class Maze{
               }
               else{
                 checkStart = true;
-                startxposition = i;
-                startyposition = theight;
+                startxposition = theight;
+                startyposition = i;
               }
             }
             maze[theight][i] = c;
@@ -109,7 +109,6 @@ public class Maze{
 
     */
     public int solve(){
-
         maze[startxposition][startyposition] = '@';
         return solve(startxposition, startyposition, 1);
     }
@@ -133,23 +132,45 @@ public class Maze{
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col, int movecount){ //you can add more parameters since this is private
-        if (maze[row][col] == 'E'){
-          return movecount;
-        }
-        //automatic animation! You are welcome.
-        if(animate){
-            clearTerminal();
-            System.out.println(this);
-            wait(20);
-        }
+      //automatic animation! You are welcome.
+      if(animate){
+          clearTerminal();
+          System.out.println(this);
+          wait(20);
+      }
 
-        //COMPLETE SOLVE
+      /////////////======= TT
 
-        return -1; //so it compiles
+      if (maze[row][col] == 'E'){
+        return movecount;
+      }
+      else{
+        for (int i = 0; i < 4; i++){
+          if(checkpath(row + move[i][0],col + move[i][1],movecount)){
+            return solve(row + move[i][0], col + move[i][1], movecount + 1);
+          }
+        }
+      }
+    return -1;
+  }
+
+    private boolean checkpath(int row, int col, int movecount){
+      if (maze[row][col] == ' '){
+        maze[row][col] = '@';
+        movecount++;
+        return true;
+      }
+      if (maze[row][col] == 'E'){
+        return true;
+      }
+      return false;
     }
 
     public static void main(String[] args) throws FileNotFoundException{
         Maze m1 = new Maze("data1.dat");
         System.out.println(m1);
+        System.out.println(m1.solve());
+        System.out.println(m1);
+
       }
 }
