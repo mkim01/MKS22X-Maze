@@ -10,7 +10,7 @@ public class Maze{
     private int height;
     private int startxposition;
     private int startyposition;
-    private int[][] move = {{1,0}, {0,1}, {-1,0}, {0,-1}};
+    private int[][] move = {{1,0}, {-1,0}, {0,1}, {0,-1}};
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -140,34 +140,45 @@ public class Maze{
       }
 
       /////////////======= TT
-
       if (maze[row][col] == 'E'){
         return movecount;
+      // if (maze[row][col] == '.'){
+      //   return -1;
+      // }
       }
       else{
+        maze[row][col] = '@';
         for (int i = 0; i < 4; i++){
-          if(checkpath(row + move[i][0],col + move[i][1],movecount)){
-            return solve(row + move[i][0], col + move[i][1], movecount + 1);
+          if(checkpath(row + move[i][0], col + move[i][1], movecount + 1)){
+              solve(row + move[i][0], col + move[i][1], movecount + 1);
+            }
+          }
+          if (movecount == 1){
+            maze[row][col] = '.';
           }
         }
-      }
     return -1;
   }
 
     private boolean checkpath(int row, int col, int movecount){
-      if (maze[row][col] == ' '){
-        maze[row][col] = '@';
-        movecount++;
-        return true;
+      if (row >= height || col >= width || row < 0
+      || col < 0 || maze[row][col] != ' ' || movecount == 1){
+        return false;
       }
-      if (maze[row][col] == 'E'){
-        return true;
-      }
-      return false;
+      // if (maze[row][col] != ' '){
+      //   //movecount++;
+      //   return false;
+      // }
+      // if (maze[row][col] == 'E'){
+      //   return true;
+      // }
+      //movecount --;
+      // return false;
+      return true;
     }
 
     public static void main(String[] args) throws FileNotFoundException{
-        Maze m1 = new Maze("data1.dat");
+        Maze m1 = new Maze("data2.dat");
         System.out.println(m1);
         System.out.println(m1.solve());
         System.out.println(m1);
